@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Fuck Around And Find Out</title>
 
-<!-- Aesthetic Font -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -26,15 +25,17 @@ body {
     color: white;
     flex-direction: column;
     backdrop-filter: brightness(0.7);
+    overflow-x: hidden;
 }
 
 .container {
     width: 90%;
     max-width: 1100px;
     text-align: center;
+    transition: transform 0.2s ease-out;
 }
 
-/* INTERACTIVE TITLE */
+/* TITLE */
 .main-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 3rem;
@@ -49,7 +50,6 @@ body {
     -webkit-text-fill-color: transparent;
 
     animation: gradientMove 6s linear infinite;
-    transition: 0.4s;
 }
 
 .main-title:hover {
@@ -73,7 +73,6 @@ body {
     width: 65%;
 }
 
-/* Subtitle */
 .subtitle {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.85rem;
@@ -82,7 +81,6 @@ body {
     margin-bottom: 40px;
 }
 
-/* Gradient animation */
 @keyframes gradientMove {
     0% { background-position: 0%; }
     100% { background-position: 200%; }
@@ -119,7 +117,6 @@ body {
     gap: 25px;
 }
 
-/* CARDS */
 .card {
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(10px);
@@ -177,12 +174,16 @@ body {
 
 <body>
 
-<div class="container">
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<div class="container" id="parallaxContainer">
 
     <h1 class="main-title">Fuck Around And Find Out</h1>
     <p class="subtitle">Choose Your Battlefield</p>
 
-    <!-- LOGO -->
     <div class="hero-image">
         <img src="hero.png" alt="Logo">
     </div>
@@ -218,9 +219,44 @@ body {
 </div>
 
 <script>
+
+/* REDIRECT */
 function goTo(url) {
     window.open(url, "_blank");
 }
+
+/* PARALLAX */
+const container = document.getElementById("parallaxContainer");
+
+document.addEventListener("mousemove", (e) => {
+
+    let x = (window.innerWidth / 2 - e.clientX) / 40;
+    let y = (window.innerHeight / 2 - e.clientY) / 40;
+
+    container.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+});
+
+
+/* MUSIC TOGGLE */
+const music = document.getElementById("bgMusic");
+let musicStarted = false;
+
+document.addEventListener("click", () => {
+
+    if (!musicStarted) {
+        music.play();
+        musicStarted = true;
+        return;
+    }
+
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+
+});
+
 </script>
 
 </body>
